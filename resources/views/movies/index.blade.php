@@ -1,12 +1,15 @@
 <x-guest-layout>
 
-    <!--
-    <div class="container mx-auto grid my-4">
-        <div>
-            <button class="border bg-green-400 border-green-800 rounded py-2 px-4 font-semibold hover:bg-green-500">Új film</button>
-        </div>
-    </div>
-    -->
+    @auth
+        @if (Auth::user()->is_admin)
+            <div class="container mx-auto grid my-4">
+                <div>
+                    <a href="{{route('movies.create')}}" class="border bg-green-400 border-green-800 rounded py-2 px-4 font-semibold hover:bg-green-500">Új film</a>
+                </div>
+            </div>
+        @endif
+    @endauth
+
     <div class="container mx-auto px-4 p-12">
         <div class="px-12 tracking-wider uppercase text-black text-xl font-extrabold">
             <h2>Elérhető filmek</h2>
@@ -47,7 +50,7 @@
 
     </div>
 
-    <div>
+    <div class="bg-gray-300 mt-4 border border-t-2 pt-4">
         {{ $movies->links() }}
     </div>
 </x-guest-layout>

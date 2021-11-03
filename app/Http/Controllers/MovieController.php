@@ -33,7 +33,7 @@ class MovieController extends Controller
      */
     public function create()
     {
-        //
+        return view('movies.create');
     }
 
     /**
@@ -94,4 +94,19 @@ class MovieController extends Controller
     {
         //
     }
+
+    public function toplist()
+    {
+        $users = User::all();
+        $movies = Movie::all();
+
+        $moviesByDesc = $movies->sortByDesc(function ($movie) {
+            return $movie->ratings->avg('rating');
+        });
+
+        $moviesByDesc = $moviesByDesc->take(6);
+
+        return view('movies.toplist', compact('moviesByDesc'));
+    }
+
 }

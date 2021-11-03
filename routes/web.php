@@ -16,12 +16,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    //return view('welcome');
     return redirect()->route('movies.index');
 });
 
+
+Route::get('/movies/toplist', [MovieController::class, 'toplist'])->name('movies.toplist');
+
 Route::resource('movies', MovieController::class);
 Route::resource('ratings', RatingController::class);
+
+Route::post('store/{slug}/{id}', [RatingController::class, 'store']);
+Route::get('edit/{movie_id}/{id}', [RatingController::class, 'edit']);
+Route::post('update/{id}', [RatingController::class, 'update']);
+
 /*
     2. felvonáshoz
 

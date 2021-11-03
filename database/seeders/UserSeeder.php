@@ -35,6 +35,7 @@ class UserSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@szerveroldali.hu',
             'password' => Hash::make('password'),
+            'is_admin' => true
         ]);
 
     }

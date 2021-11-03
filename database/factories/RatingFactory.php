@@ -24,10 +24,11 @@ class RatingFactory extends Factory
 
     public function definition()
     {
+        $value = $this->faker->dateTimeInInterval('-5 months','+4 months');
         return [
             'rating' => random_int(1,5),
             'comment' => $this->faker->paragraph(random_int(1,3)),
-            'created_at' => $this->faker->date($format = 'Y-m-d H:m:s', $max = 'now')
+            'created_at' => $value,
         ];
     }
 }

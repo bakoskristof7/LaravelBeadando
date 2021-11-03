@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('movies.index') }}">
                         <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
                     </a>
                 </div>
@@ -18,7 +18,7 @@
                 </div>
                 <!-- TODO TOPLISTA ROUTE -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('movies.index')" :active="request()->routeIs('movies')">
+                    <x-nav-link :href="route('movies.toplist')" :active="request()->routeIs('movies')">
                         {{ __('Toplista') }}
                     </x-nav-link>
                 </div>
@@ -48,7 +48,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Kijelentkezés') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
