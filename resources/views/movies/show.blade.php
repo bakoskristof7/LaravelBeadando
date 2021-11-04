@@ -1,10 +1,126 @@
 <x-guest-layout>
 
-    <div class="border-b border-gray-400 w-screen">
+    @if (Session::has('movie_soft_deleted'))
+        @if (Session::get('movie_soft_deleted'))
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-green-500 text-white font-semibold py-2">
+                    A film sikeresen törölve!
+                </div>
+            </div>
+        @else
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-red-500 text-white font-semibold py-2">
+                    A film törlése sikertelen volt!
+                </div>
+            </div>
+        @endif
+    @endif
+
+    @if (Session::has('movie_restored'))
+        @if (Session::get('movie_restored'))
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-green-500 text-white font-semibold py-2">
+                    A film helyreállíása sikeres volt!
+                </div>
+            </div>
+        @else
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-red-500 text-white font-semibold py-2">
+                    Nem sikerült a film helyreállítása!
+                </div>
+            </div>
+        @endif
+    @endif
+
+    @if (Session::has('all_ratings_deleted'))
+        @if (Session::get('all_ratings_deleted'))
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-green-500 text-white font-semibold py-2">
+                    Minden értékelés törölve lett!
+                </div>
+            </div>
+        @else
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-red-500 text-white font-semibold py-2">
+                    Nem sikerült az értékelések törlése!
+                </div>
+            </div>
+        @endif
+    @endif
+
+    @if (Session::has('movie_created'))
+        @if (Session::get('movie_created'))
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-green-500 text-white font-semibold py-2">
+                    A film sikeresen létrehozva!
+                </div>
+            </div>
+        @else
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-red-500 text-white font-semibold py-2">
+                    A film létrehozása sikertelen volt!
+                </div>
+            </div>
+        @endif
+    @endif
+
+    @if (Session::has('movie_edited'))
+        @if (Session::get('movie_edited'))
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-green-500 text-white font-semibold py-2">
+                    A film sikeresen módosítva!
+                </div>
+            </div>
+        @else
+            <div class="container mx-auto px-18 my-4">
+                <div class="border px-12 bg-red-500 text-white font-semibold py-2">
+                    A film módosítása sikertelen volt!
+                </div>
+            </div>
+        @endif
+    @endif
+
+    <div class="border-b border-gray-400 w-screen {{$movie->trashed() ? 'bg-red-200' : ''}}">
         <div class="container mx-auto px-4 py-16 flex">
-            <img src="{{$movie->image}}" alt="{{$movie->title}}" class="w-96">
+            <img src="{{asset($movie->image ? 'storage/movie_images/'. $movie->image  : 'img/movie.png') }}" alt="{{$movie->title}}" class="w-96">
             <div class="relative ml-24">
-                <h2 class="text-4xl font-semibold">{{$movie->title}}</h2>
+                <div class="flex">
+                    <h2 class="text-4xl font-semibold">{{$movie->title}}</h2>
+
+                    @auth
+                        @if (Auth::user()->is_admin)
+                            <a href="{{route('movies.edit', $movie)}}"
+                                class="bg-blue-500 hover:bg-blue-700 px-2 py-2 text-white mx-4 rounded">
+                                <i class="fas fa-edit"></i> Film módosítása
+                            </a>
+
+                            @if (!$movie->trashed())
+                                <button class="bg-red-500 hover:bg-red-700 px-2 py-1 text-white">
+                                    <form method="POST" action="{{ route('movies.destroy', $movie)}}" id="movie-destroy-form">
+                                        @method('DELETE')
+                                        @csrf
+                                        <a
+                                        href="#"
+                                        onclick="event.preventDefault(); document.querySelector('#movie-destroy-form').submit();"
+                                        class="bg-red-500 hover:bg-red-700 px-2 py-2 text-white rounded mr-4">
+                                            <i class="fas fa-trash-alt"></i> Film törlése
+                                        </a>
+                                    </form>
+                                </button>
+                            @else
+                                <a href="{{route('movies.restore', $movie)}}"
+                                class="bg-green-500 hover:bg-green-700 px-2 py-2 text-white rounded">
+                                <i class="fas fa-recycle"></i> Film helyreállítása
+                                </a>
+                            @endif
+                                    <a href="{{route('ratings.destroyAll', $movie)}}"
+                                    class="bg-red-500 hover:bg-red-700 px-2 py-2 text-white ml-4 rounded">
+                                        <i class="fas fa-trash-alt"></i> Értékelések törlése
+                                    </a>
+                        @endif
+                    @endauth
+                </div>
+
 
                 <div class="py-2 text-gray-500 text-sm flex">
                     <span class=""> <i class="fas fa-star text-yellow-500"></i> {{$movie->ratings->avg('rating');}}</span>
@@ -28,7 +144,6 @@
             </div>
         </div>
     </div>
-
 
     @if (Session::has('rating_created'))
         <div class="container mx-auto px-18 my-4">

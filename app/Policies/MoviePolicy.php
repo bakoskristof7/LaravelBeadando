@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Rating;
+use App\Models\Movie;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RatingPolicy
+class MoviePolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class RatingPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Rating  $rating
+     * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Rating $rating)
+    public function view(User $user, Movie $movie)
     {
         //
     }
@@ -48,10 +48,10 @@ class RatingPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Rating  $rating
+     * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Rating $rating)
+    public function update(User $user, Movie $movie)
     {
         //
     }
@@ -60,22 +60,22 @@ class RatingPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Rating  $rating
+     * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Rating $rating)
+    public function delete(User $user, Movie $movie)
     {
-        return $user->id === intval($rating->user_id) || $user->is_admin;
+        return $user->is_admin;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Rating  $rating
+     * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Rating $rating)
+    public function restore(User $user, Movie $movie)
     {
         //
     }
@@ -84,10 +84,10 @@ class RatingPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Rating  $rating
+     * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Rating $rating)
+    public function forceDelete(User $user, Movie $movie)
     {
         //
     }

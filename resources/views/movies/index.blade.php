@@ -2,11 +2,11 @@
 
     @auth
         @if (Auth::user()->is_admin)
-            <div class="container mx-auto grid my-4">
-                <div>
-                    <a href="{{route('movies.create')}}" class="border bg-green-400 border-green-800 rounded py-2 px-4 font-semibold hover:bg-green-500">Új film</a>
+                <div class="container mx-auto px-16 pt-14">
+                    <div>
+                        <a href="{{route('movies.create')}}" class="border bg-green-400 border-green-800 rounded py-4 px-6 font-semibold hover:bg-green-500">Új film</a>
+                    </div>
                 </div>
-            </div>
         @endif
     @endauth
 
@@ -19,9 +19,9 @@
     <div class="px-2 container md:mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 justify-items-center">
         @forelse ($movies as $movie)
             <!-- EGY DB FILM -->
-                <div class="w-8/12 mt-8">
-                        <a href="{{route('movies.show', $movie)}}">
-                            <img class="hover:opacity-75 transition ease-in-out duration-1" src="{{$movie->image}}" alt="{{$movie->title}}" srcset="">
+                <div class="w-8/12 mt-8 {{$movie->deleted_at ? 'bg-red-600 border-red-800' : ''}}">
+                        <a href="{{route('movies.show', $movie->id)}}">
+                            <img class="hover:opacity-75 transition ease-in-out duration-1 {{$movie->deleted_at ? 'bg-red-600 border-red-800 opacity-50' : ''}}" src="{{asset($movie->image ? 'storage/movie_images/'. $movie->image  : 'img/movie.png') }}" alt="{{$movie->title}}" srcset="">
                         </a>
                     <div class="pt-2 border border-gray-200 bg-white">
                         <div class="text-center font-semibold py-2">

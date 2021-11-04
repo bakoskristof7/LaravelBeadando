@@ -21,9 +21,16 @@ Route::get('/', function () {
 
 
 Route::get('/movies/toplist', [MovieController::class, 'toplist'])->name('movies.toplist');
+Route::get('/ratings/destroyAll/{id}',[RatingController::class, 'destroyAll'])->withTrashed()->name('ratings.destroyAll');
+
+Route::get('/movies/show/{id}', [MovieController::class, 'show'])->withTrashed()->name('movies.show');
+Route::get('/movies/edit/{id}', [MovieController::class, 'edit'])->withTrashed()->name('movies.edit');
+Route::get('/movies/update/{id}', [MovieController::class, 'update'])->withTrashed()->name('movies.update');
+Route::get('/movies/restore/{id}', [MovieController::class, 'restore'])->withTrashed()->name('movies.restore');
 
 Route::resource('movies', MovieController::class);
 Route::resource('ratings', RatingController::class);
+
 
 Route::post('store/{slug}/{id}', [RatingController::class, 'store']);
 Route::get('edit/{movie_id}/{id}', [RatingController::class, 'edit']);

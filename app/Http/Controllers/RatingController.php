@@ -6,6 +6,7 @@ use App\Models\Movie;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class RatingController extends Controller
 {
@@ -136,6 +137,26 @@ class RatingController extends Controller
         $request->session()->flash('rating_deleted', $id);
 
         return redirect()->route('movies.show', $movie_id);
+
+    }
+
+    public function destroyAll($movie_id, Request $request) {
+        if (!Auth::user()->is_admin) {
+            return abort(403);
+        }
+
+       $movie = Movie::withTrashed()->find($movie_id);
+
+        $movie->ratings->each(function ($rating) {
+            $this->authorize('delete', $rating);
+            if (!$rating->delete()) {
+                return abort(500);
+            }
+        });
+
+        $request->session()->flash('all_ratings_deleted', true);
+
+        return redirect()->route('movies.show', $movie);
 
     }
 
