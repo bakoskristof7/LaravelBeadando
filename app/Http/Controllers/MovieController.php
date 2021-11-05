@@ -23,11 +23,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->is_admin) {
-            $movies = Movie::withTrashed()->paginate(10);
-        } else {
-            $movies = Movie::all();
-        }
+        $movies = Movie::withTrashed()->paginate(10);
         $ratings = Rating::all();
         return view('movies.index', compact('movies', 'ratings'));
     }

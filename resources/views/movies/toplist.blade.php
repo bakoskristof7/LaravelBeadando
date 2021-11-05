@@ -16,7 +16,7 @@
                         </span>
                         <div class="mx-4 p-2">
                             <a href="{{route('movies.show', $movie)}}">
-                                <img class="hover:opacity-75 transition ease-in-out duration-1 object-none h-48" src="{{$movie->image}}" alt="{{$movie->title}}" srcset="">
+                                <img class="hover:opacity-75 transition ease-in-out duration-1 object-none min-w-48 w-48 h-48" src="{{asset($movie->image ? 'storage/movie_images/'. $movie->image  : 'img/movie.png') }}" alt="{{$movie->title}}" srcset="">
                             </a>
                         </div>
                         <div class="justify-center">

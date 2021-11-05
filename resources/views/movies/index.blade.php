@@ -19,9 +19,10 @@
     <div class="px-2 container md:mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 justify-items-center">
         @forelse ($movies as $movie)
             <!-- EGY DB FILM -->
+            @if ($movie->deleted_at === null || (Auth::check() && Auth::user()->is_admin))
                 <div class="w-8/12 mt-8 {{$movie->deleted_at ? 'bg-red-600 border-red-800' : ''}}">
                         <a href="{{route('movies.show', $movie->id)}}">
-                            <img class="hover:opacity-75 transition ease-in-out duration-1 {{$movie->deleted_at ? 'bg-red-600 border-red-800 opacity-50' : ''}}" src="{{asset($movie->image ? 'storage/movie_images/'. $movie->image  : 'img/movie.png') }}" alt="{{$movie->title}}" srcset="">
+                            <img class="hover:opacity-75 transition ease-in-out duration-1 w-64 h-80 {{$movie->deleted_at ? 'bg-red-600 border-red-800 opacity-50' : ''}}" src="{{asset($movie->image ? 'storage/movie_images/'. $movie->image  : 'img/movie.png') }}" alt="{{$movie->title}}" srcset="">
                         </a>
                     <div class="pt-2 border border-gray-200 bg-white">
                         <div class="text-center font-semibold py-2">
@@ -43,6 +44,7 @@
                         </div>
                     </div>
                 </div>
+            @endif
             <!-- EGY DB FILM -->
         @empty
             <p>Nincsenek filmek jelenleg az adatbázisban.</p>
